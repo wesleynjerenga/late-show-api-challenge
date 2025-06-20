@@ -13,7 +13,7 @@ from .models import User, Guest, Episode, Appearance
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('server.config')
+    app.config.from_object('server.config.Config')
 
     db.init_app(app)
     jwt = JWTManager(app)
