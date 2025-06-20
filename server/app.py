@@ -2,7 +2,7 @@
 Flask application entry point for the Late Show API Challenge.
 This app provides RESTful endpoints for managing episodes, guests, and appearances for a late show database.
 """
-from flask import Flask
+from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from .models import db
@@ -18,6 +18,14 @@ def create_app():
     db.init_app(app)
     jwt = JWTManager(app)
     migrate = Migrate(app, db)
+
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        response = {
+            "error": str(e),
+            "type": e.__class__.__name__
+        }
+        return jsonify(response), 500
 
     # Register blueprints here (to be implemented)
     from .controllers.auth_controller import auth_bp
