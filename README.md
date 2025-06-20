@@ -101,3 +101,32 @@ Headers: { "Authorization": "Bearer <token>" }
 - [x] All routes work and have been tested in Postman
 - [x] Clean, complete README.md
 - [x] GitHub repo pushed and shared
+
+## New Endpoints and Features
+
+- **/health**: Health check endpoint (GET, no auth)
+- **/episodes**: Supports pagination (`page`, `per_page`) and search by title (`title` query param)
+- **/episodes (POST)**: Create episode (auth required)
+- **/guests (POST)**: Create guest (auth required)
+- **/appearances (GET, POST)**: List and create appearances (POST requires auth)
+
+### Example: List Episodes with Pagination and Search
+```
+GET /episodes?page=1&per_page=5&title=night
+```
+
+### Example: Create Episode (Protected)
+```
+POST /episodes
+Headers: { "Authorization": "Bearer <token>" }
+{
+  "title": "Special Night",
+  "air_date": "2024-06-01"
+}
+```
+
+### Example: Health Check
+```
+GET /health
+Response: { "status": "ok" }
+```
