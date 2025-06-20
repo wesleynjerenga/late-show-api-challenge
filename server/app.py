@@ -28,6 +28,8 @@ def create_app():
     app.register_blueprint(episode_bp)
     from .controllers.appearance_controller import appearance_bp
     app.register_blueprint(appearance_bp)
+    from .controllers.health_controller import health_bp
+    app.register_blueprint(health_bp)
     # ...
 
     return app
