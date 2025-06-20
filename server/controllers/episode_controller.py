@@ -7,8 +7,16 @@ episode_bp = Blueprint('episode', __name__)
 
 @episode_bp.route('/episodes', methods=['GET'])
 def list_episodes():
-    episodes = Episode.query.all()
-    return jsonify([e.to_dict() for e in episodes]), 200
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+    pagination = Episode.query.paginate(page=page, per_page=per_page, error_out=False)
+    episodes = [e.to_dict() for e in pagination.items]
+    return jsonify({
+        'episodes': episodes,
+        'total': pagination.total,
+        'page': pagination.page,
+        'pages': pagination.pages
+    }), 200
 
 @episode_bp.route('/episodes', methods=['POST'])
 @jwt_required()
