@@ -1,3 +1,7 @@
+"""
+Flask application entry point for the Late Show API Challenge.
+This app provides RESTful endpoints for managing episodes, guests, and appearances for a late show database.
+"""
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
