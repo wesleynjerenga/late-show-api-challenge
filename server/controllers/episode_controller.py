@@ -9,7 +9,11 @@ episode_bp = Blueprint('episode', __name__)
 def list_episodes():
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 10))
-    pagination = Episode.query.paginate(page=page, per_page=per_page, error_out=False)
+    title_filter = request.args.get('title')
+    query = Episode.query
+    if title_filter:
+        query = query.filter(Episode.title.ilike(f"%{title_filter}%"))
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
     episodes = [e.to_dict() for e in pagination.items]
     return jsonify({
         'episodes': episodes,
