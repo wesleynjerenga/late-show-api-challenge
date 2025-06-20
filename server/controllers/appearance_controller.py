@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from ..models.appearance import Appearance, db
+from flask_jwt_extended import jwt_required
 
 appearance_bp = Blueprint('appearance', __name__)
 
@@ -16,6 +17,7 @@ def list_appearances():
     ]), 200
 
 @appearance_bp.route('/appearances', methods=['POST'])
+@jwt_required()
 def create_appearance():
     data = request.get_json()
     rating = data.get('rating')

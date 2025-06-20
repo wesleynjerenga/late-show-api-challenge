@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from ..models.episode import Episode
 from ..models import db
+from flask_jwt_extended import jwt_required
 
 episode_bp = Blueprint('episode', __name__)
 
@@ -10,6 +11,7 @@ def list_episodes():
     return jsonify([e.to_dict() for e in episodes]), 200
 
 @episode_bp.route('/episodes', methods=['POST'])
+@jwt_required()
 def create_episode():
     data = request.get_json()
     title = data.get('title')

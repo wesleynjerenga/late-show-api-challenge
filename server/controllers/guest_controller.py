@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from ..models import Guest
+from flask_jwt_extended import jwt_required
 
 guest_bp = Blueprint('guests', __name__)
 
@@ -12,6 +13,7 @@ def get_guests():
     ])
 
 @guest_bp.route('/guests', methods=['POST'])
+@jwt_required()
 def create_guest():
     data = request.get_json()
     name = data.get('name')
