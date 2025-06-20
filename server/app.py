@@ -7,6 +7,7 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from .models import db
 import os
+import logging
 
 # Import all models for migrations
 from .models import User, Guest, Episode, Appearance
@@ -14,6 +15,14 @@ from .models import User, Guest, Episode, Appearance
 def create_app():
     app = Flask(__name__)
     app.config.from_object('server.config.Config')
+
+    # Logging setup
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
+    @app.before_request
+    def log_request_info():
+        logger.info(f"Request: {str(request.method)} {str(request.path)}")
 
     db.init_app(app)
     jwt = JWTManager(app)
